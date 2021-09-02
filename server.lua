@@ -2,6 +2,11 @@ RegisterNetEvent("license_plate_changer:newPlate", function(newPlate)
     local xPlayer = ESX.GetPlayerFromId(source)
     local ped = GetPlayerPed(source)
     local vehicle = GetVehiclePedIsIn(ped, false)
+    if vehicle == 0 then
+        print("Error: Player should still be in the vehicle but isn't")
+        return
+    end
+
     local oldPlate = GetVehicleNumberPlateText(vehicle)
     oldPlate = string.gsub(oldPlate, '^%s*(.-)%s*$', '%1')
 
@@ -22,7 +27,7 @@ RegisterNetEvent("license_plate_changer:newPlate", function(newPlate)
                     SetVehicleNumberPlateText(vehicle, newPlate)
                     xPlayer.showNotification("Succefully changed your license plate")
                     if Config.RemoveAfterUse then
-                        xPlayer.removeInventoryItem(Config.RequiredItem, 1)                        
+                        xPlayer.removeInventoryItem(Config.RequiredItem, 1)
                     end
                 end)
             end
@@ -35,7 +40,7 @@ ESX.RegisterUsableItem(Config.RequiredItem, function(source, item)
 
     local ped = GetPlayerPed(source)
     local vehicle = GetVehiclePedIsIn(ped, false)
-    if vehicle then
+    if vehicle ~= 0 then
         local plate = GetVehicleNumberPlateText(vehicle)
         plate = string.gsub(plate, '^%s*(.-)%s*$', '%1')
         MySQL.Async.fetchScalar("SELECT COUNT(1) FROM owned_vehicles WHERE plate = @plate AND owner = @owner", {
