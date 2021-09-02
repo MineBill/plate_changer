@@ -1,9 +1,6 @@
 # plate_changer
 A really stupid and simple script to change your license plate on an ESX server. It assumes that you use `esx_vehicleshop` and have a table named `owned_vehicles`
 
-## Known Problems
-* No check for plate duplication
-
 ## Configuration
 | Name | Type | Description |
 | ---- | ---- | ----------- |
