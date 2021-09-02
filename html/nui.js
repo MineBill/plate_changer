@@ -1,7 +1,6 @@
 $("#plate-form").submit(e => {
    e.preventDefault();
    const text = $("#plate-text").val().toUpperCase();
-   console.log(text.length);
    if (text.length !== 0) {
        $.post(`https://${GetParentResourceName()}/change_plate`, JSON.stringify({
            plate: text
