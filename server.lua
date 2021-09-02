@@ -21,15 +21,18 @@ RegisterNetEvent("license_plate_changer:newPlate", function(newPlate)
                     newPlate = string.gsub(newPlate, '^%s*(.-)%s*$', '%1')
                     SetVehicleNumberPlateText(vehicle, newPlate)
                     xPlayer.showNotification("Succefully changed your license plate")
-                    xPlayer.removeInventoryItem("license_plate", 1)
+                    if Config.RemoveAfterUse then
+                        xPlayer.removeInventoryItem(Config.RequiredItem, 1)                        
+                    end
                 end)
             end
         end)
     end
 end)
 
-ESX.RegisterUsableItem("license_plate", function(source, item)
+ESX.RegisterUsableItem(Config.RequiredItem, function(source, item)
     local xPlayer = ESX.GetPlayerFromId(source)
+
     local ped = GetPlayerPed(source)
     local vehicle = GetVehiclePedIsIn(ped, false)
     if vehicle then
